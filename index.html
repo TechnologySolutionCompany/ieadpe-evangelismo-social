@@ -1,0 +1,1230 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Evangelismo Solidário - IEADPE</title>
+  <style>
+    :root{
+      --bg:#0b1020;
+      --panel:#121a33;
+      --card:#1a2447;
+      --muted:#10182f;
+      --text:#e7ecff;
+      --sub:#b7c2ff;
+      --brand:#5ea8ff;
+      --accent:#7df0c4;
+      --danger:#ff6b6b;
+      --border:#263055;
+      --hint:#9fb0ff7a;
+    }
+
+    *{box-sizing:border-box}
+    html,body{margin:0;padding:0;background:var(--bg);color:var(--text);font-family:Inter,Segoe UI,Roboto,Arial,sans-serif}
+
+    /* Fundo estilizado: camadas mágicas e blobs animados por trás do conteúdo */
+    html, body {
+      height: 100%;
+    }
+    body{
+      position:relative;overflow-x:hidden;
+    }
+
+/* Camada de background principal — um gradiente suave em ângulo */
+body::before{
+  content:'';
+  position:fixed;inset:0;z-index:0;pointer-events:none;
+  background-color:var(--bg);
+  background-image: 
+    linear-gradient(180deg, rgba(11,16,32,0.85), rgba(8,12,24,0.9)),
+    url('img/inicio.gif'); /* Adicione o caminho da sua imagem aqui */
+  background-size: cover;
+  background-position: center center;
+  background-repeat: no-repeat;
+  mix-blend-mode: normal;
+  opacity:1;
+}
+
+    /* Blobs animados para dar vida ao fundo */
+    body::after{
+      content:'';
+      position:fixed;left:-10%;top:-10%;width:120%;height:120%;z-index:0;pointer-events:none;filter:blur(40px);
+      background: radial-gradient(20% 20% at 15% 20%, rgba(125,240,196,0.14), transparent 20%),
+                  radial-gradient(25% 25% at 80% 70%, rgba(94,168,255,0.12), transparent 20%),
+                  radial-gradient(15% 15% at 60% 30%, rgba(125,240,196,0.06), transparent 20%);
+      animation: floatBg 18s ease-in-out infinite;
+      opacity:0.95;
+    }
+
+    @keyframes floatBg{
+      0%{transform:translateY(0) rotate(0deg) scale(1)}
+      50%{transform:translateY(18px) rotate(3deg) scale(1.02)}
+      100%{transform:translateY(0) rotate(0deg) scale(1)}
+    }
+
+    /* Garantir que o topo e o conteúdo fiquem acima das camadas de fundo */
+    .topbar, main, .footer{position:relative;z-index:1}
+    a{color:inherit;text-decoration:none}
+    button{font:inherit}
+
+    .topbar{
+      position:sticky;top:0;z-index:10;
+      background:linear-gradient(180deg,#0b1020,rgba(11,16,32,.6));
+      border-bottom:1px solid var(--border);
+      -webkit-backdrop-filter:saturate(1.2) blur(6px);
+      backdrop-filter:saturate(1.2) blur(6px);
+    }
+    .brand{display:flex;gap:16px;align-items:center;padding:16px 20px}
+    .brand-mark{
+      display:inline-flex;align-items:center;justify-content:center;
+      width:56px;height:56px;flex:0 0 56px;
+      font-weight:700;letter-spacing:.06em;font-size:.75rem;line-height:1;
+      color:var(--hint);border:1px solid var(--border);padding:6px;border-radius:10px;text-align:center;
+      background:rgba(255,255,255,0.02);
+    }
+
+    .brand-mark img{
+      max-width:100%;
+      max-height:100%;
+      display:block;
+      object-fit:contain;
+      border-radius:8px;
+    }
+    .brand-text h1{margin:0;font-size:1.2rem}
+    .subtitle{margin:2px 0;color:var(--sub);font-size:.95rem}
+    .leaders{margin:0;color:#9fb0ffbd;font-size:.85rem}
+
+    .nav{display:flex;gap:8px;padding:0 12px 12px 12px;flex-wrap:wrap}
+    .nav-link{
+      background:transparent;color:var(--text);border:1px solid var(--border);
+      padding:8px 12px;border-radius:10px;cursor:pointer;transition:.2s
+    }
+    .nav-link:hover{border-color:var(--brand);color:var(--brand)}
+    .nav-link.active{background:var(--card);border-color:var(--brand);color:#fff}
+
+    main{max-width:1100px;margin:24px auto;padding:0 16px}
+    .view{display:none;animation:fade .25s ease}
+    .view.active{display:block}
+    @keyframes fade{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
+
+    .hero{
+      background: linear-gradient(180deg, rgba(18,26,51,0.28), rgba(18,26,51,0.14));
+      border:1px solid rgba(255,255,255,0.04);
+      border-radius:8px;padding:24px;-webkit-backdrop-filter: blur(4px);backdrop-filter: blur(4px);
+    }
+    .hero-badge{
+      display:inline-block;background:rgba(125,240,196,.1);
+      color:var(--accent);border:1px solid rgba(125,240,196,.4);
+      padding:6px 10px;border-radius:999px;font-weight:600;font-size:.9rem
+    }
+    .hero-title{margin:10px 0 6px;font-size:1.6rem}
+    .hero-when{margin:0 0 16px;color:var(--sub)}
+    .hero-cta{display:flex;gap:10px;flex-wrap:wrap}
+
+    .btn{
+      background:var(--panel);color:var(--text);border:1px solid var(--border);
+      padding:10px 14px;border-radius:10px;cursor:pointer;transition:.2s;display:inline-flex;gap:8px;align-items:center
+    }
+    .btn:hover{border-color:var(--brand);color:var(--brand)}
+    .btn.primary{background:linear-gradient(180deg,#4378ff,#3157d6);border-color:#3a63e3}
+    .btn.primary:hover{filter:brightness(1.05)}
+    .btn.outline{background:transparent}
+    .btn.danger{background:linear-gradient(180deg,#ff6464,#cc5252);border-color:#ff7c7c}
+    .btn:disabled{opacity:.5;cursor:not-allowed}
+
+    .hidden{display:none !important}
+
+    #btnLogout{margin-left:8px}
+
+    #adminSelector{
+      margin-left:8px;
+      padding:8px;border-radius:8px;background:var(--panel);color:var(--text);border:1px solid var(--border)
+    }
+
+    .admin-grid{
+      display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:14px
+    }
+    .card{
+      background:var(--panel);border:1px solid var(--border);border-radius:12px;padding:16px
+    }
+    .card h3{margin:0 0 6px}
+    .card p{margin:0;color:var(--sub)}
+    .card-link .card{transition:.2s}
+    .card-link .card:hover{transform:translateY(-2px);border-color:var(--brand)}
+    .card.muted{opacity:.6}
+
+    .form{background:var(--panel);border:1px solid var(--border);border-radius:12px;padding:16px;margin-bottom:14px}
+    .form-row{display:grid;grid-template-columns:repeat(4,1fr);gap:12px}
+    .form-field{display:flex;flex-direction:column;gap:6px}
+    .form-field.full{grid-column:1/-1}
+    .form-field.invalid input, .form-field.invalid textarea { outline:2px solid rgba(255,107,107,0.15); box-shadow:0 0 0 3px rgba(255,107,107,0.04); }
+    .form-error{color:var(--danger);font-size:.95rem;margin-top:8px;display:none}
+    .form-error.active{display:block}
+    .id-preview{display:flex;gap:12px;align-items:center;margin-top:10px}
+    .modal{position:fixed;inset:0;display:none;align-items:center;justify-content:center;z-index:50}
+    .modal[aria-hidden="false"]{display:flex}
+    .modal-backdrop{position:absolute;inset:0;background:rgba(2,6,23,0.6)}
+    .modal-content{position:relative;z-index:51;background:var(--panel);border:1px solid var(--border);padding:18px;border-radius:12px;max-width:420px;width:100%;color:var(--text)}
+    .modal-content h3{margin:0 0 8px}
+    .modal-actions{display:flex;gap:8px;justify-content:flex-end;margin-top:12px}
+    .form-field label{font-size:.9rem;color:var(--sub)}
+    .form-field input{
+      background:var(--card);color:var(--text);border:1px solid var(--border);
+      border-radius:10px;padding:10px
+    }
+    .form-actions{display:flex;gap:10px;margin-top:8px;flex-wrap:wrap}
+
+    .toolbar{
+      display:flex;gap:12px;align-items:center;justify-content:space-between;margin:12px 0
+    }
+    .search input{
+      width:260px;max-width:100%;
+      background:var(--panel);border:1px solid var(--border);border-radius:10px;padding:10px;color:var(--text)
+    }
+
+    .table-wrap{background:var(--panel);border:1px solid var(--border);border-radius:12px;padding:8px}
+    .table{width:100%;border-collapse:collapse}
+    .table th,.table td{border-bottom:1px solid var(--border);padding:10px 8px;text-align:left}
+    .table th{color:var(--sub);font-weight:600}
+    .table tr:hover td{background:#121a33}
+    .table tr td:nth-child(6) { max-width: 200px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+
+    .hint{color:var(--hint);margin:10px 6px 0}
+
+    .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:14px}
+    .activity-card{
+      background:var(--panel);border:1px solid var(--border);border-radius:12px;padding:14px;transition:.2s;
+      cursor: pointer;
+    }
+    .activity-card:hover{transform:translateY(-2px);border-color:var(--brand)}
+    .activity-card:active { transform: scale(0.98); }
+    .tag{
+      display:inline-block;padding:4px 8px;border-radius:999px;
+      background:#23315b;color:#9fc2ff;border:1px solid #34518f;font-weight:600;font-size:.8rem
+    }
+    .activity-count{
+      margin-top:10px;display:inline-block;background:var(--brand);color:#04243a;padding:6px 10px;border-radius:999px;font-weight:700;font-size:.95rem;
+    }
+    .activity-card h3{margin:8px 0 6px}
+
+    .kpis{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:14px}
+    .kpi{background:var(--panel);border:1px solid var(--border);border-radius:12px;padding:14px;text-align:center}
+    .kpi-value{font-size:1.6rem;font-weight:700; line-height: 1.2;}
+    .kpi-value strong { font-weight: 700; color: var(--accent); }
+    .kpi-label{color:var(--sub)}
+
+    .panel{background:var(--panel);border:1px solid var(--border);border-radius:12px;padding:14px}
+    .ages{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:8px}
+    .ages li{background:var(--card);border:1px solid var(--border);border-radius:10px;padding:10px;display:flex;justify-content:space-between}
+
+    .footer{
+      display:flex;gap:8px;justify-content:center;align-items:center;
+      color:var(--sub);padding:24px;border-top:1px solid var(--border);margin-top:32px;
+      flex-direction: column;
+    }
+    .sep{opacity:.6}
+    
+    .verse-container {
+      text-align: center;
+      padding: 20px;
+      background: var(--panel);
+      border-radius: 12px;
+      border: 1px solid var(--border);
+      margin: 20px 0;
+    }
+    
+    .verse {
+      font-style: italic;
+      font-size: 1.2rem;
+      margin-bottom: 15px;
+      line-height: 1.6;
+    }
+    
+    .verse-reference {
+      font-weight: bold;
+      color: var(--accent);
+    }
+    
+    .verse-description {
+      margin-top: 20px;
+      line-height: 1.6;
+    }
+
+    @media (max-width:900px){
+      .form-row{grid-template-columns:1fr 1fr}
+      .kpis{grid-template-columns:1fr 1fr}
+    }
+    @media (max-width:560px){
+      .form-row{grid-template-columns:1fr}
+      .nav{padding-bottom:10px}
+    }
+
+    /* Estilos para os modais */
+    .modal-content h3 {
+      margin: 0 0 16px;
+    }
+    
+    /* Estilo para o campo de data/hora não interativo */
+    .datetime-display {
+      background: var(--card);
+      color: var(--text);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 10px;
+      pointer-events: none;
+      user-select: none;
+      cursor: default;
+      opacity: 0.8;
+    }
+    
+    .developer-link {
+      color: var(--brand);
+      text-decoration: none;
+      font-weight: bold;
+    }
+    
+    .developer-link:hover {
+      text-decoration: underline;
+    }
+  </style>
+</head>
+<body>
+  <header class="topbar">
+    <div class="brand">
+    <div class="brand-mark">
+      <img src="/img/pecristo.png" alt="Logo IEADPE" style="width:100%;height:100%;object-fit:contain;">
+    </div>
+      <div class="brand-text">
+        <h1>Evangelismo Solidário - IEADPE</h1>
+        <p class="subtitle">Evangelismo Solidário - IEADPE</p>
+        <!-- Campo livre para informações adicionais -->
+      </div>
+    </div>
+    <nav class="nav">
+      <button class="nav-link active" data-target="inicio">Início</button>
+      <button class="nav-link" data-target="cadastros">Cadastros</button>
+      <button class="nav-link" data-target="atividades">Atividades</button>
+      <button class="nav-link" data-target="resumo">Resumo</button>
+      <button class="nav-link" data-target="administracao">Administração</button>
+    </nav>
+  </header>
+  <!-- Logo do topo -->
+<div style="text-align:center; padding:15px 0;">
+  <img src="/img/pecristo.png" alt="Logo Evangelismo Solidário" style="max-width:200px; height:auto;">
+</div>
+  <main>
+    <!-- Início -->
+    <section id="inicio" class="view active">
+      <div class="hero">
+        <div class="hero-badge">Evangelismo solidário</div>
+        <h2 class="hero-title">Evangelismo Solidário - IEADPE</h2>
+        <p class="hero-when">Ação de amor e solidariedade à comunidade</p>
+        <div class="hero-cta">
+          <a class="btn primary" data-target="cadastros" href="#cadastros">Fazer cadastro</a>
+          <a class="btn outline" data-target="atividades" href="#atividades">Confirmar Atividade</a>
+        </div>
+      </div>
+    </section>
+
+    <!-- Cadastros -->
+    <section id="cadastros" class="view">
+      <h2>Cadastros</h2>
+      <form id="cadastroForm" class="form">
+        <input type="hidden" id="cad-id" />
+        <div class="form-row">
+          <div class="form-field">
+            <label for="cad-nome">Nome</label>
+            <input id="cad-nome" type="text" placeholder="Nome completo" required />
+          </div>
+          <div class="form-field">
+            <label for="cad-idade">Idade</label>
+            <input id="cad-idade" type="number" min="0" max="120" placeholder="Idade" required />
+          </div>
+          <div class="form-field">
+            <label for="cad-telefone">Telefone</label>
+            <input id="cad-telefone" type="tel" placeholder="(XX) XXXXX-XXXX" required />
+          </div>
+          <div class="form-field">
+            <label for="cad-datetime">Data - Hora</label>
+            <div id="cad-datetime" class="datetime-display"></div>
+          </div>
+        </div>
+        <div class="form-actions">
+          <button type="submit" class="btn primary" id="btnSalvar" disabled>Salvar</button>
+          <button type="reset" class="btn" id="btnLimpar">Limpar</button>
+        </div>
+        <div class="form-error" id="formError">Preencha todos os campos.</div>
+      </form>
+    </section>
+
+    <!-- Atividades -->
+    <section id="atividades" class="view">
+      <h2>Atividades</h2>
+      <div class="grid">
+        <div class="activity-card" data-atividade="Atendimento Odontológico">
+          <span class="tag">Saúde</span>
+          <h3>Atendimento Odontológico</h3>
+          <p>Orientações e cuidados com a saúde bucal.</p>
+        </div>
+        <div class="activity-card" data-atividade="Aferição de Pressão e Glicose">
+          <span class="tag">Saúde</span>
+          <h3>Aferição de Pressão e Glicose</h3>
+          <p>Verificação de pressão arterial e nível de glicose.</p>
+        </div>
+        <div class="activity-card" data-atividade="Aconselhamento Psicológico">
+          <span class="tag">Saúde Mental</span>
+          <h3>Aconselhamento Psicológico</h3>
+          <p>Suporte emocional e orientação psicológica.</p>
+        </div>
+        <div class="activity-card" data-atividade="Doação de Roupas">
+          <span class="tag">Solidariedade</span>
+          <h3>Doação de Roupas</h3>
+          <p>Distribuição de roupas para pessoas necessitadas.</p>
+        </div>
+        <div class="activity-card" data-atividade="Corte de Cabelo Masculino">
+          <span class="tag">Beleza</span>
+          <h3>Corte de Cabelo Masculino</h3>
+          <p>Corte de cabelo gratuito para homens.</p>
+        </div>
+        <div class="activity-card" data-atividade="Atendimento Estético Feminino">
+          <span class="tag">Beleza</span>
+          <h3>Atendimento Estético Feminino</h3>
+          <p>Cuidados estéticos e de beleza para mulheres.</p>
+        </div>
+        <div class="activity-card" data-atividade="Atendimento Jurídico">
+          <span class="tag">Assessoria</span>
+          <h3>Atendimento Jurídico</h3>
+          <p>Orientações jurídicas e encaminhamentos.</p>
+        </div>
+        <div class="activity-card" data-atividade="Culto Infantil">
+          <span class="tag">Espiritual</span>
+          <h3>Culto Infantil</h3>
+          <p>Atividades espirituais e recreativas para crianças.</p>
+        </div>
+        <div class="activity-card" data-atividade="Agendamento Documentos">
+          <span class="tag">Documentação</span>
+          <h3>Agendamento para 2ª via de documentos</h3>
+          <p>Orientação para obtenção de 2ª via de documentos pessoais.</p>
+        </div>
+        <div class="activity-card" data-atividade="Agendamento Faturas">
+          <span class="tag">Utilidades</span>
+          <h3>Agendamento para 2ª via de faturas</h3>
+          <p>Orientação para 2ª via de faturas de água e luz.</p>
+        </div>
+        <div class="activity-card" data-atividade="Xerox de Documentos">
+          <span class="tag">Serviços</span>
+          <h3>Xerox de Documentos</h3>
+          <p>Cópias de documentos de forma gratuita.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Resumo -->
+    <section id="resumo" class="view">
+      <h2>Resumo</h2>
+      <div class="kpis">
+        <div class="kpi">
+          <div class="kpi-value" id="kpiTotal">0</div>
+          <div class="kpi-label">Total de cadastros</div>
+        </div>
+        <div class="kpi">
+          <div class="kpi-value" id="kpiTotalConfirmacoes">0</div>
+          <div class="kpi-label">Total de confirmações</div>
+        </div>
+        <div class="kpi">
+          <div class="kpi-value" id="kpiMaisFrequentes">S/ dados</div>
+          <div class="kpi-label">Atividade mais procurada</div>
+        </div>
+        <div class="kpi">
+          <div class="kpi-value" id="kpiMenosFrequentes">S/ dados</div>
+          <div class="kpi-label">Atividade menos procurada</div>
+        </div>
+      </div>
+
+      <div class="verse-container">
+        <div class="verse">"Porque tive fome e vocês me deram de comer, tive sede e me deram de beber; fui estrangeiro e me acolheram."</div>
+        <div class="verse-reference">— Mateus 25:35</div>
+        <div class="verse-description">
+          Inspirados pelo ensinamento de Jesus, estamos realizando uma ação solidária para cuidar da nossa comunidade.
+          Serão oferecidos serviços gratuitos, como corte de cabelo e atendimentos diversos, para que cada pessoa seja recebida com dignidade, respeito e amor.
+          Mais do que ajudar, queremos ser instrumentos de esperança, mostrando na prática o mandamento de amar ao próximo como a nós mesmos.
+        </div>
+      </div>
+    </section>
+    
+    <!-- Administração -->
+    <section id="administracao" class="view">
+      <h2>Administração</h2>
+      <div class="admin-grid">
+        <a class="card-link" data-target="resumo" href="#resumo">
+          <div class="card">
+            <h3>Resumo</h3>
+            <p>Indicadores gerais do evento.</p>
+          </div>
+        </a>
+        <a class="card-link" data-target="atividades" href="#atividades">
+          <div class="card">
+            <h3>Atividades</h3>
+            <p>Lista de serviços oferecidos.</p>
+          </div>
+        </a>
+        <a class="card-link" data-target="cadastros" href="#cadastros">
+          <div class="card">
+            <h3>Cadastros</h3>
+            <p>Gerencie inscritos e contatos.</p>
+          </div>
+        </a>
+        <a class="card-link" href="https://tscbr-front-teste.vercel.app/" target="_blank">
+          <div class="card">
+            <h3>TSC Br</h3>
+            <p>Desenvolvido por TSC Br</p>
+          </div>
+        </a>
+      </div>
+
+      <div class="toolbar">
+        <div class="search">
+          <input id="busca" type="search" placeholder="Buscar por nome ou telefone..." />
+        </div>
+        <div class="toolbar-actions">
+          <button class="btn outline" id="btnExportar">Exportar CSV</button>
+          <button class="btn danger" id="btnLimparTudo" title="Remover todos os cadastros">Limpar tudo</button>
+          <select id="adminSelector" class="hidden" aria-label="Selecionar administrador"></select>
+          <button class="btn hidden" id="btnLogout" title="Sair da Administração">Logout</button>
+        </div>
+      </div>
+
+      <div class="table-wrap">
+        <table class="table" id="tabelaCadastros">
+          <thead>
+            <tr>
+              <th>ID</th>
+              <th>Nome</th>
+              <th>Idade</th>
+              <th>Telefone</th>
+              <th>Atividade Confirmada</th>
+              <th>Data - Hora</th>
+            </tr>
+          </thead>
+          <tbody><!-- preenchido via JS --></tbody>
+        </table>
+        <p class="hint">Dica: clique em "Editar" para ajustar um cadastro existente.</p>
+      </div>
+    </section>
+  </main>
+
+  <!-- Modal de confirmação de cadastro -->
+  <div id="modalConfirm" class="modal" aria-hidden="true">
+    <div class="modal-backdrop"></div>
+    <div class="modal-content" role="dialog" aria-modal="true">
+      <h3>Cadastro confirmado</h3>
+      <p id="modalMessage">Usuário: <strong id="modalNome"></strong><br>ID: <strong id="modalId"></strong></p>
+      <div class="modal-actions">
+        <button class="btn" id="modalClose">Fechar</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal de login para Administração -->
+  <div id="modalLogin" class="modal" aria-hidden="true">
+    <div class="modal-backdrop"></div>
+    <div class="modal-content" role="dialog" aria-modal="true">
+      <h3>Login Administração</h3>
+      <div class="form-field">
+        <label for="loginUser">Usuário</label>
+        <input id="loginUser" type="text" placeholder="Usuário" />
+      </div>
+      <div class="form-field">
+        <label for="loginPass">Senha</label>
+        <input id="loginPass" type="password" placeholder="Senha" />
+      </div>
+      <div class="modal-actions">
+        <button class="btn" id="loginCancel">Cancelar</button>
+        <button class="btn primary" id="loginSubmit">Entrar</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal para seleção de ID para confirmar presença -->
+  <div id="modalSelecaoId" class="modal" aria-hidden="true">
+    <div class="modal-backdrop"></div>
+    <div class="modal-content" role="dialog" aria-modal="true">
+      <h3>Confirmar presença em: <span id="modalAtividadeTitulo"></span></h3>
+      <div class="form-field">
+        <label for="presencaIdInput">Informe seu ID</label>
+        <input id="presencaIdInput" type="text" placeholder="Ex: A0101" />
+      </div>
+      <div class="modal-actions">
+        <button class="btn" data-dismiss="modal">Cancelar</button>
+        <button class="btn primary" id="btnConfirmarPresenca">Confirmar</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal de confirmação de presença -->
+  <div id="modalPresencaConfirmada" class="modal" aria-hidden="true">
+    <div class="modal-backdrop"></div>
+    <div class="modal-content" role="dialog" aria-modal="true">
+      <h3>Presença confirmada!</h3>
+      <p>
+        <strong id="modalPresencaNome"></strong><br>
+        ID: <strong id="modalPresencaId"></strong><br>
+        Atividade: <strong id="modalPresencaAtividade"></strong>
+      </p>
+      <div class="modal-actions">
+        <button class="btn" data-dismiss="modal">Fechar</button>
+      </div>
+    </div>
+  </div>
+
+  <footer class="footer">
+    <span>IEADPE • Evangelismo Solidário</span>
+    <span>Desenvolvido por <a href="https://tscbr-front-teste.vercel.app/" target="_blank" class="developer-link">Technology Solution Company Br (TSC Br)</a></span>
+    <span>Todos os direitos reservados &copy; 2025</span>
+  </footer>
+
+  <script>
+    // Navegação SPA
+    const views = document.querySelectorAll('.view');
+    const navLinks = document.querySelectorAll('[data-target]');
+
+    // Autenticação simples (state em sessionStorage)
+    const ADMINS = [
+      { user: 'estevao',    pass: '1709' },
+      { user: 'rodrigo',    pass: '2025' },
+      { user: 'coordenador', pass: 'ieadpe' }
+    ];
+    function findAdmin(u, p){ return ADMINS.some(a => a.user === u && a.pass === p); }
+    function isAdminAuthed(){ try { return sessionStorage.getItem('admin_authed') === '1'; } catch { return false; } }
+    function setAdminAuthed(v){ try { if (v) sessionStorage.setItem('admin_authed','1'); else sessionStorage.removeItem('admin_authed'); } catch {} updateAdminUI(); }
+    function updateAdminUI(){ const btn = document.getElementById('btnLogout'); if (btn) btn.style.display = isAdminAuthed() ? '' : 'none'; }
+    function getActiveAdmin(){ try { return sessionStorage.getItem('admin_active') || null; } catch { return null; } }
+    function setActiveAdmin(user){ try { if (user) sessionStorage.setItem('admin_active', user); else sessionStorage.removeItem('admin_active'); } catch {} updateAdminUI(); }
+
+    function populateAdminSelector(){
+      const sel = document.getElementById('adminSelector');
+      if (!sel) return;
+      sel.innerHTML = '';
+      ADMINS.forEach(a => {
+        const opt = document.createElement('option'); opt.value = a.user; opt.textContent = a.user; sel.appendChild(opt);
+      });
+      const active = getActiveAdmin();
+      if (active) sel.value = active;
+    }
+
+    function showAdminControls(visible){
+      const sel = document.getElementById('adminSelector');
+      const btn = document.getElementById('btnLogout');
+      if (sel) sel.classList.toggle('hidden', !visible);
+      if (btn) btn.classList.toggle('hidden', !visible);
+    }
+
+    function showView(id) {
+      views.forEach(v => v.classList.toggle('active', v.id === id));
+      document.querySelectorAll('.nav-link').forEach(b => {
+        if (b.dataset.target) b.classList.toggle('active', b.dataset.target === id);
+      });
+      // Atualiza KPIs quando entrar no resumo
+      if (id === 'resumo') atualizarResumo();
+      // Foco inicial útil
+      if (id === 'cadastros') document.getElementById('cad-nome').focus();
+    }
+    navLinks.forEach(btn => {
+      btn.addEventListener('click', e => {
+        const t = btn.dataset.target;
+        if (t) {
+          e.preventDefault();
+          if (t === 'administracao' && !isAdminAuthed()){
+            const m = document.getElementById('modalLogin'); if (m) m.setAttribute('aria-hidden','false');
+            return;
+          }
+          showView(t); history.replaceState(null, '', `#${t}`);
+        }
+      });
+    });
+    window.addEventListener('load', () => {
+      const target = location.hash?.replace('#','') || 'index';
+      showView(target);
+    });
+
+    // Storage
+    const STORAGE_KEY = 'cadastros_evangelismo_v1';
+    const PRESENCA_KEY = 'presencas_confirmadas_v1';
+
+    function lerCadastros() {
+      try { return JSON.parse(localStorage.getItem(STORAGE_KEY)) || []; }
+      catch { return []; }
+    }
+
+    function salvarCadastros(arr) {
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(arr));
+    }
+
+    // Funções para gerenciar presenças
+    function lerPresencas() {
+      try { return JSON.parse(localStorage.getItem(PRESENCA_KEY)) || []; }
+      catch { return []; }
+    }
+
+    function salvarPresencas(arr) {
+      localStorage.setItem(PRESENCA_KEY, JSON.stringify(arr));
+    }
+
+    // Helpers
+    const tabelaBody = () => document.querySelector('#tabelaCadastros tbody');
+    const form = document.getElementById('cadastroForm');
+    const inputId = document.getElementById('cad-id');
+    const inputNome = document.getElementById('cad-nome');
+    const inputIdade = document.getElementById('cad-idade');
+    const inputTelefone = document.getElementById('cad-telefone');
+    const inputDateTimeDisplay = document.getElementById('cad-datetime');
+    const btnSalvar = document.getElementById('btnSalvar');
+    const formError = document.getElementById('formError');
+    const busca = () => document.getElementById('busca');
+    const btnExportar = () => document.getElementById('btnExportar');
+    const btnLimparTudo = () => document.getElementById('btnLimparTudo');
+    // modal elements
+    const modalConfirm = document.getElementById('modalConfirm');
+    const modalNome = document.getElementById('modalNome');
+    const modalIdEl = document.getElementById('modalId');
+    const modalClose = document.getElementById('modalClose');
+    // login modal elements (Admin)
+    const modalLogin = document.getElementById('modalLogin');
+    const loginUser = document.getElementById('loginUser');
+    const loginPass = document.getElementById('loginPass');
+    const loginSubmit = document.getElementById('loginSubmit');
+    const loginCancel = document.getElementById('loginCancel');
+    const btnLogout = document.getElementById('btnLogout');
+
+    // DataTime padrão: agora
+    let currentDateTime = new Date();
+    function updateDateTimeDisplay() {
+      const pad = n => String(n).padStart(2,'0');
+      const local = `${pad(currentDateTime.getDate())}/${pad(currentDateTime.getMonth()+1)}/${currentDateTime.getFullYear()} ${pad(currentDateTime.getHours())}:${pad(currentDateTime.getMinutes())}`;
+      inputDateTimeDisplay.textContent = local;
+    }
+    updateDateTimeDisplay();
+
+    // Atualizar a cada minuto
+    setInterval(() => {
+      currentDateTime = new Date();
+      updateDateTimeDisplay();
+    }, 60000);
+
+    // Renderização da tabela
+    function renderTabela(filtro = '') {
+      const cadastros = lerCadastros();
+      const f = filtro.trim().toLowerCase();
+      const visiveis = cadastros.filter(c =>
+        !f ||
+        c.nome.toLowerCase().includes(f) ||
+        (c.telefone || '').toLowerCase().includes(f)
+      );
+      const tb = tabelaBody();
+      if (!tb) return;
+      tb.innerHTML = '';
+      if (visiveis.length === 0) {
+        const tr = document.createElement('tr');
+        const td = document.createElement('td');
+        td.colSpan = 6; // Ajustado para 6 colunas
+        td.style.color = '#9fb0ffbd';
+        td.textContent = 'Nenhum cadastro encontrado.';
+        tr.appendChild(td);
+        tb.appendChild(tr);
+        return;
+      }
+      
+      // Obter todas as presenças confirmadas
+      const presencas = lerPresencas();
+      
+      visiveis.forEach(c => {
+        const tr = document.createElement('tr');
+        
+        // Obter atividades confirmadas para esta pessoa
+        const atividadesConfirmadas = presencas
+          .filter(p => p.id === c.id)
+          .map(p => p.atividade);
+        
+        tr.innerHTML = `
+          <td>${c.id}</td>
+          <td>${escapeHtml(c.nome)}</td>
+          <td>${c.idade ?? ''}</td>
+          <td>${escapeHtml(c.telefone || '')}</td>
+          <td>${atividadesConfirmadas.length > 0 ? escapeHtml(atividadesConfirmadas.join(', ')) : '-'}</td>
+          <td>${formatarDataHora(c.datetime)}</td>
+        `;
+        tb.appendChild(tr);
+      });
+    }
+    
+    function escapeHtml(s){
+      return String(s).replace(/[&<>"']/g, m => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#039;'}[m]));
+    }
+    
+    function formatarDataHora(iso){
+      if (!iso) return '';
+      const d = new Date(iso);
+      if (isNaN(d)) return iso;
+      // dd/mm/yyyy hh:mm
+      const pad = n => String(n).padStart(2,'0');
+      return `${pad(d.getDate())}/${pad(d.getMonth()+1)}/${d.getFullYear()} ${pad(d.getHours())}:${pad(d.getMinutes())}`;
+    }
+
+    // CRUD
+    // Gera um ID no formato Letter + 4 dígitos (ex: A0101)
+    function gerarIdAleatorio(arr){
+      const letras = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+      const letra = letras[Math.floor(Math.random()*letras.length)];
+      // geramos dois pares de números de 0..99 e formatamos com 2 dígitos cada
+      const n1 = String(Math.floor(Math.random()*100)).padStart(2,'0');
+      const n2 = String(Math.floor(Math.random()*100)).padStart(2,'0');
+      const id = `${letra}${n1}${n2}`;
+      // garantir unicidade simples (re-tentar se já existir)
+      if (arr.some(c => c.id === id)) return gerarIdAleatorio(arr);
+      return id;
+    }
+    
+    form.addEventListener('submit', (e) => {
+      e.preventDefault();
+      if (!validarFormulario()) {
+        formError.classList.add('active');
+        return;
+      }
+      // gerar ID automaticamente para novo cadastro
+      const nome = inputNome.value.trim();
+      const idade = Number(inputIdade.value);
+      const telefone = inputTelefone.value.trim();
+      const datetime = currentDateTime.toISOString();
+
+      if (!nome || isNaN(idade)) return;
+
+      const arr = lerCadastros();
+      if (inputId.value) {
+        // update
+        const id = inputId.value;
+        const idx = arr.findIndex(c => c.id === id);
+        if (idx >= 0) {
+          // Manter as atividades existentes ao editar
+          const atividadesExistentes = arr[idx].atividades || [];
+          arr[idx] = { id, nome, idade, telefone, datetime, atividades: atividadesExistentes };
+          salvarCadastros(arr);
+          // mostrar modal com nome+id
+          if (modalNome) modalNome.textContent = nome;
+          if (modalIdEl) modalIdEl.textContent = id;
+          if (modalConfirm) modalConfirm.setAttribute('aria-hidden','false');
+        }
+      } else {
+        // create com ID gerado automaticamente
+        const id = gerarIdAleatorio(arr);
+        // Novo cadastro sem atividades selecionadas
+        arr.push({ id, nome, idade, telefone, datetime, atividades: [] });
+        salvarCadastros(arr);
+        // mostrar modal com nome+id
+        if (modalNome) modalNome.textContent = nome;
+        if (modalIdEl) modalIdEl.textContent = id;
+        if (modalConfirm) modalConfirm.setAttribute('aria-hidden','false');
+      }
+      form.reset();
+      inputId.value = '';
+      // Atualizar data/hora para agora
+      currentDateTime = new Date();
+      updateDateTimeDisplay();
+      renderTabela(busca()?.value);
+      atualizarResumo();
+      // foco no nome para novo cadastro
+    });
+    
+    document.getElementById('btnLimpar').addEventListener('click', () => {
+      inputId.value = '';
+      atualizaEstadoSalvar();
+    });
+
+    // Handlers de login/logout
+    document.addEventListener('DOMContentLoaded', () => {
+      const loginSubmit = document.getElementById('loginSubmit');
+      const loginCancel = document.getElementById('loginCancel');
+      const loginUser = document.getElementById('loginUser');
+      const loginPass = document.getElementById('loginPass');
+      const modalLogin = document.getElementById('modalLogin');
+      const btnLogout = document.getElementById('btnLogout');
+
+      if (loginSubmit) loginSubmit.addEventListener('click', () => {
+        const u = loginUser?.value?.trim();
+        const p = loginPass?.value || '';
+        if (findAdmin(u,p)){
+          setAdminAuthed(true);
+          setActiveAdmin(u);
+          populateAdminSelector();
+          showAdminControls(true);
+          if (modalLogin) modalLogin.setAttribute('aria-hidden','true');
+          showView('administracao'); history.replaceState(null,'',`#administracao`);
+        } else alert('Usuário ou senha incorretos.');
+      });
+      if (loginCancel) loginCancel.addEventListener('click', () => { if (modalLogin) modalLogin.setAttribute('aria-hidden','true'); });
+      if (btnLogout) btnLogout.addEventListener('click', () => { if (!confirm('Deseja sair da Administração?')) return; setAdminAuthed(false); showView('inicio'); history.replaceState(null,'',`#inicio`); });
+      updateAdminUI();
+      // preencher seletor e preparar listener
+      populateAdminSelector();
+      const sel = document.getElementById('adminSelector');
+      if (sel) sel.addEventListener('change', (e) => { setActiveAdmin(e.target.value); });
+      // mostrar controles se já autenticado
+      showAdminControls(isAdminAuthed());
+    });
+
+    document.querySelector('#tabelaCadastros tbody')?.addEventListener('click', (e) => {
+      const btn = e.target.closest('button[data-act]');
+      if (!btn) return;
+      const id = btn.dataset.id;
+      const act = btn.dataset.act;
+      const arr = lerCadastros();
+      const idx = arr.findIndex(c => c.id === id);
+      if (idx < 0) return;
+
+      if (act === 'edit') {
+        const c = arr[idx];
+        inputId.value = c.id;
+        inputNome.value = c.nome;
+        inputIdade.value = c.idade;
+        inputTelefone.value = c.telefone || '';
+        // Não permitir edição da data/hora
+        showView('cadastros');
+        inputNome.focus();
+        atualizaEstadoSalvar();
+      }
+    });
+
+    // Busca
+    document.addEventListener('input', (e) => {
+      const t = e.target;
+      if (t && t.id === 'busca') renderTabela(busca()?.value);
+      // também escuta mudanças no formulário para validar
+      if (t && (t.id === 'cad-nome' || t.id === 'cad-idade' || t.id === 'cad-telefone')) {
+        formError.classList.remove('active');
+        atualizaEstadoSalvar();
+      }
+    });
+
+    function validarFormulario(){
+      const nome = inputNome.value.trim();
+      const idade = Number(inputIdade.value);
+      const telefone = inputTelefone.value.trim();
+
+      // validações simples (sem atividades)
+      const ok = nome.length > 0 && !isNaN(idade) && String(idade).length > 0 && telefone.length > 0;
+
+      // atualizar classes visuais
+      toggleInvalid(inputNome, !nome);
+      toggleInvalid(inputIdade, isNaN(idade) || String(idade).length === 0);
+      toggleInvalid(inputTelefone, !telefone);
+
+      return ok;
+    }
+
+    function toggleInvalid(el, invalid){
+      const field = el.closest('.form-field');
+      if (!field) return;
+      field.classList.toggle('invalid', invalid);
+    }
+
+    function atualizaEstadoSalvar(){
+      const ok = validarFormulario();
+      if (btnSalvar) btnSalvar.disabled = !ok;
+    }
+
+    // Exportar CSV
+    function handleExport(){
+      const arr = lerCadastros();
+      if (!arr.length) return alert('Não há cadastros para exportar.');
+      const header = ['ID','Nome','Idade','Telefone','DataHoraISO'];
+      const rows = arr.map(c => [
+        c.id, csvSafe(c.nome), c.idade, csvSafe(c.telefone || ''), c.datetime || ''
+      ]);
+      const csvBody = [header, ...rows].map(r => r.join(',')).join('\n');
+      const exporter = getActiveAdmin() || 'unknown';
+      const exportedAt = new Date().toISOString();
+      const csv = csvBody + '\n' + `"Exportado por: ${exporter} em ${exportedAt}"`;
+      const blob = new Blob([csv], {type:'text/csv;charset=utf-8;'});
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      const hoje = new Date().toISOString().slice(0,10);
+      a.download = `cadastros_evangelismo_${hoje}.csv`;
+      document.body.appendChild(a); a.click(); a.remove();
+      URL.revokeObjectURL(url);
+    }
+
+    document.addEventListener('click', (e) => {
+      const exp = e.target.closest('#btnExportar');
+      if (exp) { e.preventDefault(); if (!isAdminAuthed()){ const m = document.getElementById('modalLogin'); if (m) m.setAttribute('aria-hidden','false'); return; } handleExport(); }
+      const lim = e.target.closest('#btnLimparTudo');
+      if (lim) {
+        e.preventDefault();
+        if (!isAdminAuthed()){ const m = document.getElementById('modalLogin'); if (m) m.setAttribute('aria-hidden','false'); return; }
+        if (!confirm('Tem certeza que deseja remover TODOS os cadastros?')) return;
+        localStorage.removeItem(STORAGE_KEY);
+        localStorage.removeItem(PRESENCA_KEY);
+        renderTabela(busca()?.value);
+        atualizarResumo();
+      }
+    });
+
+    if (modalClose) modalClose.addEventListener('click', () => {
+      if (modalConfirm) modalConfirm.setAttribute('aria-hidden','true');
+      const nomeEl = document.getElementById('cad-nome');
+      if (nomeEl) nomeEl.focus();
+    });
+    
+    function csvSafe(s){
+      const str = String(s ?? '');
+      if (/[",\n]/.test(str)) return `"${str.replace(/"/g,'""')}"`;
+      return str;
+    }
+
+    // Função para contar atividades mais e menos frequentes
+    function contarFrequenciaAtividades() {
+      const presencas = lerPresencas();
+      const contagem = {};
+      
+      // Inicializar contador para todas as atividades
+      const todasAtividades = [
+        "Atendimento Odontológico", "Aferição de Pressão e Glicose", "Aconselhamento Psicológico",
+        "Doação de Roupas", "Corte de Cabelo Masculino", "Atendimento Estético Feminino",
+        "Atendimento Jurídico", "Culto Infantil", "Agendamento Documentos",
+        "Agendamento Faturas", "Xerox de Documentos"
+      ];
+      
+      todasAtividades.forEach(atividade => {
+        contagem[atividade] = 0;
+      });
+      
+      // Contar presenças confirmadas por atividade
+      presencas.forEach(presenca => {
+        if (contagem.hasOwnProperty(presenca.atividade)) {
+          contagem[presenca.atividade]++;
+        }
+      });
+      
+      return contagem;
+    }
+
+    // Função para encontrar atividades mais e menos frequentes
+    function getAtividadesMaisEMenosFrequentes() {
+      const contagem = contarFrequenciaAtividades();
+      const atividades = Object.entries(contagem);
+      
+      // Ordenar por frequência (decrescente)
+      atividades.sort((a, b) => b[1] - a[1]);
+      
+      // Encontrar atividade mais frequente
+      let maisFrequente = "S/ dados";
+      if (atividades.length > 0 && atividades[0][1] > 0) {
+        const maxCount = atividades[0][1];
+        const maisFrequentes = atividades.filter(a => a[1] === maxCount);
+        if (maisFrequentes.length === 1) {
+          maisFrequente = `${maisFrequentes[0][0]} (${maxCount})`;
+        } else {
+          maisFrequente = "Empate";
+        }
+      }
+      
+      // Encontrar atividade menos frequente
+      let menosFrequente = "S/ dados";
+      if (atividades.length > 0) {
+        const atividadesComContagem = atividades.filter(a => a[1] > 0);
+        if (atividadesComContagem.length > 0) {
+          const minCount = atividadesComContagem[atividadesComContagem.length - 1][1];
+          const menosFrequentes = atividadesComContagem.filter(a => a[1] === minCount);
+          if (menosFrequentes.length === 1) {
+            menosFrequente = `${menosFrequentes[0][0]} (${minCount})`;
+          } else {
+            menosFrequente = "Empate";
+          }
+        }
+      }
+      
+      return { maisFrequente, menosFrequente };
+    }
+
+    // KPIs / Resumo
+    function atualizarResumo(){
+      const arr = lerCadastros();
+      const presencas = lerPresencas();
+      
+      document.getElementById('kpiTotal').textContent = arr.length;
+      document.getElementById('kpiTotalConfirmacoes').textContent = presencas.length;
+
+      // Obter atividades mais e menos frequentes
+      const { maisFrequente, menosFrequente } = getAtividadesMaisEMenosFrequentes();
+      
+      // Atividade mais frequente
+      const maisFreqElement = document.getElementById('kpiMaisFrequentes');
+      if (maisFreqElement) {
+        maisFreqElement.textContent = maisFrequente;
+      }
+
+      // Atividade menos frequente
+      const menosFreqElement = document.getElementById('kpiMenosFrequentes');
+      if (menosFreqElement) {
+        menosFreqElement.textContent = menosFrequente;
+      }
+    }
+
+    // Função para confirmar presença em atividade
+    function confirmarPresenca(id, atividade) {
+      const cadastros = lerCadastros();
+      const cadastro = cadastros.find(c => c.id === id);
+      
+      if (!cadastro) {
+        alert('ID não encontrado!');
+        return false;
+      }
+      
+      // Registrar a presença
+      const presencas = lerPresencas();
+      const presencaExistente = presencas.find(p => p.id === id && p.atividade === atividade);
+      
+      if (presencaExistente) {
+        alert('Presença já confirmada anteriormente para esta atividade');
+        return false;
+      }
+      
+      // Adicionar nova presença
+      presencas.push({
+        id,
+        nome: cadastro.nome,
+        atividade,
+        dataHora: new Date().toISOString()
+      });
+      
+      salvarPresencas(presencas);
+      
+      // Mostrar popup de confirmação
+      const modal = document.getElementById('modalPresencaConfirmada');
+      if (modal) {
+        document.getElementById('modalPresencaNome').textContent = cadastro.nome;
+        document.getElementById('modalPresencaId').textContent = id;
+        document.getElementById('modalPresencaAtividade').textContent = atividade;
+        modal.setAttribute('aria-hidden', 'false');
+      }
+      
+      // Atualizar a tabela na administração
+      renderTabela(busca()?.value);
+      atualizarResumo();
+      
+      return true;
+    }
+
+    // Adicionar evento de clique nas atividades
+    document.addEventListener('DOMContentLoaded', function() {
+      // Adicionar evento de clique nas atividades
+      const activityCards = document.querySelectorAll('.activity-card');
+      activityCards.forEach(card => {
+        card.addEventListener('click', function() {
+          const atividade = this.getAttribute('data-atividade') || this.querySelector('h3').textContent;
+          abrirModalSelecaoId(atividade);
+        });
+      });
+    });
+
+    // Função para abrir modal de seleção de ID
+    function abrirModalSelecaoId(atividade) {
+      const modal = document.getElementById('modalSelecaoId');
+      if (modal) {
+        document.getElementById('modalAtividadeTitulo').textContent = atividade;
+        
+        // Limpar campo de ID
+        const idInput = document.getElementById('presencaIdInput');
+        if (idInput) idInput.value = '';
+        
+        // Mostrar modal
+        modal.setAttribute('aria-hidden', 'false');
+        
+        // Focar no campo de entrada
+        setTimeout(() => {
+          if (idInput) idInput.focus();
+        }, 100);
+      }
+    }
+
+    // Adicionar handler para confirmar presença
+    document.addEventListener('DOMContentLoaded', function() {
+      const btnConfirmarPresenca = document.getElementById('btnConfirmarPresenca');
+      if (btnConfirmarPresenca) {
+        btnConfirmarPresenca.addEventListener('click', function() {
+          const id = document.getElementById('presencaIdInput').value.trim().toUpperCase();
+          const atividade = document.getElementById('modalAtividadeTitulo').textContent;
+          
+          if (!id) {
+            alert('Por favor, informe o ID');
+            return;
+          }
+          
+          if (confirmarPresenca(id, atividade)) {
+            // Fechar modal de seleção
+            const modal = document.getElementById('modalSelecaoId');
+            if (modal) modal.setAttribute('aria-hidden', 'true');
+          }
+        });
+      }
+      
+      // Adicionar handler para fechar modais
+      const closeButtons = document.querySelectorAll('[data-dismiss="modal"]');
+      closeButtons.forEach(btn => {
+        btn.addEventListener('click', function() {
+          const modal = this.closest('.modal');
+          if (modal) modal.setAttribute('aria-hidden', 'true');
+        });
+      });
+    });
+
+    // Inicialização
+    renderTabela();
+    atualizarResumo();
+    // definir estado inicial do botão salvar (desabilitar/habilitar conforme validação)
+    atualizaEstadoSalvar();
+
+    // Navegação via "href" dos botões
+    document.querySelectorAll('a[data-target]').forEach(a => {
+      a.addEventListener('click', (e) => {
+        const t = a.dataset.target;
+        if (t) { e.preventDefault(); showView(t); history.replaceState(null, '', `#${t}`); }
+      });
+    });
+
+    // Estilo pequeno para botões na tabela
+    document.addEventListener('DOMContentLoaded', () => {
+      const style = document.createElement('style');
+      style.textContent = `.btn-sm{padding:6px 10px;border-radius:8px;font-size:.9rem}`;
+      document.head.appendChild(style);
+    });
+  </script>
+
+<!-- Firebase SDK -->
+<script type="module">
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-app.js";
+  import { getFirestore, collection, getDocs, addDoc, updateDoc, deleteDoc, doc, onSnapshot }
+    from "https://www.gstatic.com/firebasejs/11.0.1/firebase-firestore.js";
+
+  // Configuração Firebase real do projeto
+  const firebaseConfig = {
+    apiKey: "AIzaSyCPvRqk-TBbYVJa9josOo07ovWPWPR2W28",
+    authDomain: "social-ieadpe.firebaseapp.com",
+    databaseURL: "https://social-ieadpe-default-rtdb.firebaseio.com",
+    projectId: "social-ieadpe",
+    storageBucket: "social-ieadpe.firebasestorage.app",
+    messagingSenderId: "833311830469",
+    appId: "1:833311830469:web:a46fdd7157d2f7f08ddbac",
+    measurementId: "G-X6EE2VMJKP"
+  };
+
+  // Inicializar Firebase
+  const app = initializeApp(firebaseConfig);
+  const db = getFirestore(app);
+
+  // Expor globalmente
+  window.db = db;
+  window.firestoreModules = { collection, getDocs, addDoc, updateDoc, deleteDoc, doc, onSnapshot };
+</script>
+
+</body>
+</html>
