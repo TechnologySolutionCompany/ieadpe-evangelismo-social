@@ -151,3 +151,4 @@ window.addEventListener('DOMContentLoaded', () => {
   style.textContent = `.btn-sm{padding:6px 10px;border-radius:8px;font-size:.9rem}`;
   document.head.appendChild(style);
 });
+
